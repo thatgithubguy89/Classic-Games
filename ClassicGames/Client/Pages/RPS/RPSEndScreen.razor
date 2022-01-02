@@ -1,0 +1,19 @@
+﻿@page "/rpsendscreen/{winner}"
+
+<div class="container w-75">
+    <h1>@message</h1>
+    <NavLink href="/rockpaperscissors" class="btn btn-primary">Play Again</NavLink>
+</div>
+
+@code {
+    @inject NavigationManager _navManager;
+    @inject IRockPaperScissorsRepository _rockPaperScissorsRepository;
+    [Parameter] public string Winner { get; set; }
+
+    private string message = "";
+
+    protected override void OnInitialized()
+    {
+        message = _rockPaperScissorsRepository.SetMessage(Winner);
+    }
+}

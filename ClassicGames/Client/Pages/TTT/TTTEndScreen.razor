@@ -1,0 +1,19 @@
+﻿@page "/tttendscreen/{winner}"
+
+<div class="container w-75">
+    <h1>@message</h1>
+    <NavLink href="/tictactoe" class="btn btn-primary">Play Again</NavLink>
+</div>
+
+@code {
+    @inject NavigationManager _navManager;
+    @inject ITicTacToeRepository _ticTacToeRepository;
+    [Parameter] public string Winner { get; set; }
+
+    private string message = "";
+
+    protected override void OnInitialized()
+    {
+        message = _ticTacToeRepository.SetMessage(Winner);
+    }
+}

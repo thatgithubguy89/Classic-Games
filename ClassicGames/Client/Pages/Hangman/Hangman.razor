@@ -1,0 +1,88 @@
+﻿@page "/hangman"
+
+<h2>@message</h2>
+<div class="container w-75 m-5 mb-5">
+    <div style="display:inline-block;">
+        @for (var i = 0; i < word.Length; i++)
+        {
+            colorPicker.Add("white");
+            <div class="m-5 text-center" style="display:inline-block; border-bottom: 1px solid black; width: 30px;">
+                <span style="font-size:x-large; color: @colorPicker[i];">@word[i]</span>
+            </div>
+        }
+    </div>
+
+    <div class="ms-5" style="display:inline-block; border: 1px solid black">
+        <img src="@imgList[counter]" width="200" height="200" />
+    </div>
+
+    <div class="w-50 offset-3 mt-5">
+        @foreach (var letter in alphabet)
+        {
+            <button class="btn btn-outline-primary" @onclick="@(() => SelectLetter(@word, @letter))">@letter</button>
+        }
+    </div>
+</div>
+
+
+@code {
+    @inject IHangmanService _hangmanService;
+
+    private int counter;
+    private string message;
+    private string word;
+
+    List<string> colorPicker = new List<string>();
+    List<string> imgList;
+    List<string> alphabet;
+
+    protected override void OnInitialized()
+    {
+        imgList = _hangmanService.GetImageList(); // Get the list of images for the hangman
+        alphabet = _hangmanService.GetAlphabet(); // Get the entire alphabet
+        word = _hangmanService.GetWord(); // Get a random word
+    }
+
+    private void SelectLetter(string currentWord, string chosenLetter)
+    {
+        if (currentWord.Contains(chosenLetter.ToLower())) // If the current word contains the letter that is passed
+        {
+            for (var i = 0; i < currentWord.Length; i++)
+            {
+                if (currentWord[i] == Convert.ToChar(chosenLetter.ToLower())) // Find the letters position in the word
+                {
+                    colorPicker[i] = "black"; // Change the letters color to black
+                }
+            }
+        }
+        else
+        {
+            counter++;
+        }
+
+        EndGame();
+    }
+
+    private void EndGame()
+    {
+        int colorCounter = 0;
+
+        foreach (var item in colorPicker) // Count how many items in colorPicker is black
+        {
+            if (item == "black")
+            {
+                colorCounter++;
+            }
+        }
+
+        if (colorCounter == word.Length) // If every index in colorPicker is black
+        {
+            message = "You Win";
+        }
+
+        else if (counter == 6) // If the sixth image is reached for the man on noose
+        {
+            message = "You Lose";
+        }
+    }
+}

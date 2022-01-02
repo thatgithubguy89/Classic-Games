@@ -1,0 +1,79 @@
+﻿@page "/tictactoe"
+
+<PageTitle>Tic Tac Toe</PageTitle>
+
+<div class="container mt-5" style="width: 400px;">
+    @for (var i = 0; i < 9; i++)
+    {
+        var num = i;
+        <div id="@squareList[i]" class="board" @onclick="(() => SelectSquare(num))">
+            <img src="@imgList[i]" style="width: 100%; height:100%;" />
+        </div>
+    }
+    <button class="btn btn-primary mt-3" @onclick="@(() => _navManager.NavigateTo("/tictactoe", true))">Reset</button>
+</div>
+
+<h4 class="text-center mt-5">@message</h4>
+
+@code {
+    @inject NavigationManager _navManager;
+    @inject ITicTacToeRepository _ticTacToeRepo;
+    private string message = "";
+    private List<string> squareList = new List<string>() { "square1", "square2", "square3", "square4", "square5", "square6", "square7", "square8", "square9" };
+    private List<string> imgList = new List<string>() { "images/blank.png", "images/blank.png", "images/blank.png", "images/blank.png",
+                                                    "images/blank.png", "images/blank.png", "images/blank.png", "images/blank.png", "images/blank.png" };
+
+    private void SelectSquare(int listNum)
+    {
+        bool didPlayerWin = false;
+        bool didComputerWin = false;
+
+        if (imgList[listNum] != "images/blank.png")
+        {
+            message = "This square has already been selected";
+        }
+        else if (_ticTacToeRepo.CheckAllSquares(imgList))
+        {
+            imgList[listNum] = "images/x.png"; // Mark the square the player selected
+            didPlayerWin = _ticTacToeRepo.CheckIfGameIsOver(imgList, "x"); // Check if the player won
+            if (didPlayerWin)
+            {
+                EndGame("player", "x");
+            }
+            else
+            {
+                EndGame("draw", "blank");
+            }
+        }
+        else
+        {
+            message = "";
+            imgList[listNum] = "images/x.png"; // Mark the square the player selected
+            didPlayerWin = _ticTacToeRepo.CheckIfGameIsOver(imgList, "x"); // Check if the player won
+            if ((didPlayerWin == false)) // If player did not win
+            {
+                imgList[_ticTacToeRepo.ComputerSelection(imgList)] = "images/o.png"; // Randomly select a square for the computer
+            }
+            else
+            {
+                EndGame("player", "x"); // If player won, end the game
+            }
+        }
+
+        didComputerWin = _ticTacToeRepo.CheckIfGameIsOver(imgList, "o"); // See if the computer won
+        if ((didComputerWin == true)) // If computer won
+        {
+            EndGame("computer", "o"); // End the game
+        }
+    }
+
+    private void EndGame(string winner, string player)
+    {
+        for (var i = 0; i < 9; i++) // Fill all squares with either x if player won, and o if computer won
+        {
+            imgList[i] = $"images/{player}.png";
+        }
+
+        _navManager.NavigateTo($"/tttendscreen/{winner}");
+    }
+}
