@@ -1,11 +1,12 @@
-﻿namespace ClassicGames.Client.Repositories
+﻿namespace ClassicGames.Client.Services
 {
-    public class RockPaperScissorsRepository : IRockPaperScissorsRepository
+    public class RockPaperScissorsService : IRockPaperScissorsService
     {
         public string ComputerSelection()
         {
             string[] choices = { "rock", "paper", "scissors" };
             Random random = new();
+
             return choices[random.Next(2)];
         }
 

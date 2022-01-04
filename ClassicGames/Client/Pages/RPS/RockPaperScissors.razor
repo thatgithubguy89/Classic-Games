@@ -17,7 +17,7 @@
 
 @code {
     @inject NavigationManager _navManager;
-    @inject IRockPaperScissorsRepository _rockPaperScissorsRepository;
+    @inject IRockPaperScissorsService _rockPaperScissorsService;
 
     int playerScore = 0;
     int computerScore = 0;
@@ -29,9 +29,9 @@
 
     private void PlayRound(string playerChoice)
     {
-        playerChoice = _rockPaperScissorsRepository.PlayerSelection(playerChoice);
+        playerChoice = _rockPaperScissorsService.PlayerSelection(playerChoice);
 
-        string computerChoice = _rockPaperScissorsRepository.ComputerSelection();
+        string computerChoice = _rockPaperScissorsService.ComputerSelection();
 
         if ((playerChoice == "rock") && (computerChoice == "rock"))
         {

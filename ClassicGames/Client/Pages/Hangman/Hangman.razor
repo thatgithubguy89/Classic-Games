@@ -2,6 +2,8 @@
 
 <h2>@message</h2>
 <div class="container w-75 m-5 mb-5">
+
+    @*Lays out each letter of the random word picked and sets the text color to white*@
     <div style="display:inline-block;">
         @for (var i = 0; i < word.Length; i++)
         {
@@ -12,10 +14,12 @@
         }
     </div>
 
+    @*Displays the hangman photo*@
     <div class="ms-5" style="display:inline-block; border: 1px solid black">
         <img src="@imgList[counter]" width="200" height="200" />
     </div>
 
+    @*Lays out the alphabet with buttons*@
     <div class="w-50 offset-3 mt-5">
         @foreach (var letter in alphabet)
         {
@@ -57,7 +61,7 @@
         }
         else
         {
-            counter++;
+            counter++; // If user picked the wrong letter, display next hangman photo
         }
 
         EndGame();
@@ -65,24 +69,8 @@
 
     private void EndGame()
     {
-        int colorCounter = 0;
+        int lettersCorrectlyPicked = _hangmanService.LettersPicked(colorPicker); // Get the number of correctly picked letters
 
-        foreach (var item in colorPicker) // Count how many items in colorPicker is black
-        {
-            if (item == "black")
-            {
-                colorCounter++;
-            }
-        }
-
-        if (colorCounter == word.Length) // If every index in colorPicker is black
-        {
-            message = "You Win";
-        }
-
-        else if (counter == 6) // If the sixth image is reached for the man on noose
-        {
-            message = "You Lose";
-        }
+        message = _hangmanService.GameOverMessage(lettersCorrectlyPicked, word, counter); // Set the message base on whether user won or lost
     }
 }

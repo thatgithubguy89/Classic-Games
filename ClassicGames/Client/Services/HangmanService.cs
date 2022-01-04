@@ -26,5 +26,37 @@
 
             return imgList;
         }
+
+        public int LettersPicked(List<string> colorPicker)
+        {
+            int colorCounter = 0;
+
+            foreach (var item in colorPicker) // Count how many items in colorPicker is black
+            {
+                if (item == "black")
+                {
+                    colorCounter++;
+                }
+            }
+
+            return colorCounter;
+        }
+
+        public string GameOverMessage(int colorCounter, string word, int counter)
+        {
+            string message = "";
+
+            if (colorCounter == word.Length) // If every index in colorPicker is black
+            {
+                message = "You Win";
+            }
+
+            else if (counter == 6) // If the sixth image is reached for the man on noose
+            {
+                message = "You Lose";
+            }
+
+            return message;
+        }
     }
 }

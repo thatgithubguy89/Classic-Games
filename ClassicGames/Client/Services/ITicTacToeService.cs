@@ -1,6 +1,6 @@
-﻿namespace ClassicGames.Client.Repositories
+﻿namespace ClassicGames.Client.Services
 {
-    public interface ITicTacToeRepository
+    public interface ITicTacToeService
     {
         bool CheckIfGameIsOver(List<string> imgList, string player);
         int ComputerSelection(List<string> imgList);

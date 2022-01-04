@@ -7,13 +7,13 @@
 
 @code {
     @inject NavigationManager _navManager;
-    @inject IRockPaperScissorsRepository _rockPaperScissorsRepository;
+    @inject IRockPaperScissorsService _rockPaperScissorsService;
     [Parameter] public string Winner { get; set; }
 
     private string message = "";
 
     protected override void OnInitialized()
     {
-        message = _rockPaperScissorsRepository.SetMessage(Winner);
+        message = _rockPaperScissorsService.SetMessage(Winner);
     }
 }

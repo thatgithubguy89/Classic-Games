@@ -1,6 +1,6 @@
-﻿namespace ClassicGames.Client.Repositories
+﻿namespace ClassicGames.Client.Services
 {
-    public class TicTacToeRepository : ITicTacToeRepository
+    public class TicTacToeService : ITicTacToeService
     {
         public bool CheckIfGameIsOver(List<string> imgList, string player)
         {

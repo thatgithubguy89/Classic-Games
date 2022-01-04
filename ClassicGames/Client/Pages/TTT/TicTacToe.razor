@@ -17,7 +17,7 @@
 
 @code {
     @inject NavigationManager _navManager;
-    @inject ITicTacToeRepository _ticTacToeRepo;
+    @inject ITicTacToeService _ticTacToeService;
     private string message = "";
     private List<string> squareList = new List<string>() { "square1", "square2", "square3", "square4", "square5", "square6", "square7", "square8", "square9" };
     private List<string> imgList = new List<string>() { "images/blank.png", "images/blank.png", "images/blank.png", "images/blank.png",
@@ -32,10 +32,10 @@
         {
             message = "This square has already been selected";
         }
-        else if (_ticTacToeRepo.CheckAllSquares(imgList))
+        else if (_ticTacToeService.CheckAllSquares(imgList))
         {
             imgList[listNum] = "images/x.png"; // Mark the square the player selected
-            didPlayerWin = _ticTacToeRepo.CheckIfGameIsOver(imgList, "x"); // Check if the player won
+            didPlayerWin = _ticTacToeService.CheckIfGameIsOver(imgList, "x"); // Check if the player won
             if (didPlayerWin)
             {
                 EndGame("player", "x");
@@ -49,10 +49,10 @@
         {
             message = "";
             imgList[listNum] = "images/x.png"; // Mark the square the player selected
-            didPlayerWin = _ticTacToeRepo.CheckIfGameIsOver(imgList, "x"); // Check if the player won
+            didPlayerWin = _ticTacToeService.CheckIfGameIsOver(imgList, "x"); // Check if the player won
             if ((didPlayerWin == false)) // If player did not win
             {
-                imgList[_ticTacToeRepo.ComputerSelection(imgList)] = "images/o.png"; // Randomly select a square for the computer
+                imgList[_ticTacToeService.ComputerSelection(imgList)] = "images/o.png"; // Randomly select a square for the computer
             }
             else
             {
@@ -60,7 +60,7 @@
             }
         }
 
-        didComputerWin = _ticTacToeRepo.CheckIfGameIsOver(imgList, "o"); // See if the computer won
+        didComputerWin = _ticTacToeService.CheckIfGameIsOver(imgList, "o"); // See if the computer won
         if ((didComputerWin == true)) // If computer won
         {
             EndGame("computer", "o"); // End the game

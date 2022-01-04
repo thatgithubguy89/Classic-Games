@@ -1,6 +1,6 @@
-﻿namespace ClassicGames.Client.Repositories
+﻿namespace ClassicGames.Client.Services
 {
-    public interface IRockPaperScissorsRepository
+    public interface IRockPaperScissorsService
     {
         string ComputerSelection();
         string PlayerSelection(string playerChoice);

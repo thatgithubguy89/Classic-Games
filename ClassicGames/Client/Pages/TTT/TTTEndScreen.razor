@@ -7,13 +7,13 @@
 
 @code {
     @inject NavigationManager _navManager;
-    @inject ITicTacToeRepository _ticTacToeRepository;
+    @inject ITicTacToeService _ticTacToeService;
     [Parameter] public string Winner { get; set; }
 
     private string message = "";
 
     protected override void OnInitialized()
     {
-        message = _ticTacToeRepository.SetMessage(Winner);
+        message = _ticTacToeService.SetMessage(Winner);
     }
 }
